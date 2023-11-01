@@ -21,9 +21,23 @@ class SynonymsController < ApplicationController
         end
     end
 
+    def delete_synonym
+      synonym = Synonym.find_by(id: params[:id])
+  
+      if synonym
+        if synonym.destroy
+          render json: { message: "Synonym #{params[:id]} has been removed." }
+        else
+          render json: { error: "Failed to remove synonym #{params[:id]}" }, status: :unprocessable_entity
+        end
+      else
+        render json: { error: "Synonym with ID #{params[:id]} not found" }, status: :not_found
+      end
+    end
+
     def index
-        if params[:word].present? || params[:synonym].present?
-            @synonyms = @synonyms.where('word LIKE ? OR synonym LIKE ?', params[:word] && "%#{params[:word]}%", params[:synonym] && "%#{params[:synonym]}%")
+        if params[:synonym].present?
+            @synonyms = @synonyms.where('synonym LIKE ?', params[:synonym] && "%#{params[:synonym]}%")
         end
         render json: @synonyms
     end
