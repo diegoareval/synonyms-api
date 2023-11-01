@@ -3,7 +3,7 @@ class SynonymsController < ApplicationController
 
     def index
         if params[:word].present? || params[:synonym].present?
-            @synonyms = @synonyms.where('word LIKE ? OR synonym LIKE ?', "%#{params[:word]}%", "%#{params[:synonym]}%")
+            @synonyms = @synonyms.where('word LIKE ? OR synonym LIKE ?', params[:word] && "%#{params[:word]}%", params[:synonym] && "%#{params[:synonym]}%")
         end
         render json: @synonyms
     end
