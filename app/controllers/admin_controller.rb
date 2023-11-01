@@ -13,6 +13,6 @@ class AdminController < ApplicationController
     private
     def generate_access_token(admin)
         payload = { admin_id: admin.id, exp: 1.hour.from_now.to_i }
-        JWT.encode(payload, 'your-secret-key', 'HS256')
+        JWT.encode(payload, 'fitune-key', 'HS256')
     end
 end
