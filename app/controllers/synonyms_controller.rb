@@ -1,5 +1,25 @@
 class SynonymsController < ApplicationController
     before_action :authorized_synonyms, only: [:index]
+    before_action :authenticate_admin!, only: [:accept_synonym, :unapproved_synonyms]
+
+    def unapproved_synonyms
+        synonyms = Synonym.where(approved: false)
+        render json: synonyms
+    end
+
+    def accept_synonym
+        synonym = Synonym.find_by(id: params[:id])
+    
+        if synonym
+          if synonym.update(approved: true)
+            render json: { message: "Synonym #{params[:id]} has been approved." }
+          else
+            render json: { error: "Failed to approve synonym #{params[:id]}" }, status: :unprocessable_entity
+          end
+        else
+          render json: { error: "Synonym with ID #{params[:id]} not found" }, status: :not_found
+        end
+    end
 
     def index
         if params[:word].present? || params[:synonym].present?
