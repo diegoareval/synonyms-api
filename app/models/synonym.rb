@@ -1,5 +1,10 @@
 class Synonym < ApplicationRecord
     validates :word, presence: true
     validates :synonym, presence: true
-    validates :approved, inclusion: { in: [true, false] }
+    before_save :set_default_approved
+
+    private
+    def set_default_approved
+        self.approved = false if self.approved.nil?
+    end
 end
