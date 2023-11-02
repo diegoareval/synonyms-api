@@ -1,0 +1,224 @@
+{
+	"info": {
+		"_postman_id": "b2dd6eea-7f16-4656-860f-84491e3378b2",
+		"name": "fitune",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25205280"
+	},
+	"item": [
+		{
+			"name": "get synonyms",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{api_url_dev}}/synonyms",
+					"host": [
+						"{{api_url_dev}}"
+					],
+					"path": [
+						"synonyms"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create synonyms",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"synonym\": {\n    \"word\": \"test\",\n    \"synonym\": \"try\"\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url_dev}}/synonyms",
+					"host": [
+						"{{api_url_dev}}"
+					],
+					"path": [
+						"synonyms"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Parse the response to extract the new access token",
+							"var responseJson = pm.response.json();",
+							"var newAccessToken = responseJson.access_token;",
+							"",
+							"// add the new access token",
+							"pm.collectionVariables.set(\"token\", newAccessToken);",
+							"pm.collectionVariables.set(\"admin_token\", newAccessToken);",
+							"",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"$dm!nhola123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url_dev}}/admin/login",
+					"host": [
+						"{{api_url_dev}}"
+					],
+					"path": [
+						"admin",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "accept synonym",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"$dm!nhola123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url_dev}}/admin/accept-synonym/4",
+					"host": [
+						"{{api_url_dev}}"
+					],
+					"path": [
+						"admin",
+						"accept-synonym",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get  unapproved synonyms",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{api_url_dev}}/admin/unapproved_synonyms",
+					"host": [
+						"{{api_url_dev}}"
+					],
+					"path": [
+						"admin",
+						"unapproved_synonyms"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete synonym",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"admin\",\n    \"password\": \"$dm!nhola123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{api_url_dev}}/admin/delete_synonym/4",
+					"host": [
+						"{{api_url_dev}}"
+					],
+					"path": [
+						"admin",
+						"delete_synonym",
+						"4"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "api_url_dev",
+			"value": "http://127.0.0.1:3000",
+			"type": "string"
+		}
+	]
+}
